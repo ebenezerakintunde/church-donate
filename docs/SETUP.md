@@ -26,6 +26,10 @@ JWT_SECRET=your-jwt-secret-here
 # Resend API Key for Email OTP
 RESEND_API_KEY=re_your_resend_api_key
 
+# Email Sender Configuration
+EMAIL_FROM_NAME=ChurchDonate
+EMAIL_FROM_EMAIL=noreply@yourdomain.com
+
 # Base URL for QR codes and public links
 BASE_URL=http://localhost:3000
 
@@ -33,6 +37,9 @@ BASE_URL=http://localhost:3000
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
+
+# Main Admin Email (Cannot be deleted - protects main admin account)
+MAIN_ADMIN=your-email@example.com
 ```
 
 **Quick Secret Generation:**
@@ -126,11 +133,15 @@ npm run lint     # Check for code issues
    - Create new API key
    - Copy the key
 4. Add the API key to `RESEND_API_KEY` in `.env.local`
+5. Configure email sender (optional):
+   - `EMAIL_FROM_NAME` - Name shown in emails (default: "ChurchDonate")
+   - `EMAIL_FROM_EMAIL` - Email address (default: "onboarding@resend.dev")
 
 **For Production:**
 
 - Verify your domain in Resend
-- Update the `from` address in `lib/email.ts` to use your domain (e.g., `noreply@yourdomain.com`)
+- Update `EMAIL_FROM_EMAIL` to use your verified domain (e.g., `noreply@yourdomain.com`)
+- Optionally customize `EMAIL_FROM_NAME` to your organization name
 
 **Note:** In development, if Resend is not configured, OTP codes will be logged to the server console.
 
@@ -143,10 +154,13 @@ npm run lint     # Check for code issues
 | `NEXTAUTH_SECRET`       | Secret for NextAuth (not actively used but required) | Random 32+ char string                            |
 | `JWT_SECRET`            | Secret for JWT token signing                         | Random 32+ char string                            |
 | `RESEND_API_KEY`        | Resend API key for emails                            | `re_xxx...`                                       |
+| `EMAIL_FROM_NAME`       | Name shown in email "from" field                     | `ChurchDonate`                                    |
+| `EMAIL_FROM_EMAIL`      | Email address shown in "from" field                  | `noreply@yourdomain.com`                          |
 | `BASE_URL`              | Base URL for QR codes and links                      | `http://localhost:3000` (dev)                     |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name                                | From dashboard                                    |
 | `CLOUDINARY_API_KEY`    | Cloudinary API key                                   | From dashboard                                    |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret                                | From dashboard                                    |
+| `MAIN_ADMIN`            | Main admin email (cannot be deleted)                 | `admin@example.com`                               |
 
 ### 5. Running the Application
 
@@ -238,15 +252,18 @@ vercel
 
 Add these in Vercel Dashboard → Settings → Environment Variables:
 
-| Variable                | Value                          | Notes                   |
-| ----------------------- | ------------------------------ | ----------------------- |
-| `MONGODB_URI`           | Your MongoDB connection string | Same as local           |
-| `JWT_SECRET`            | Strong random secret           | **Different from dev!** |
-| `RESEND_API_KEY`        | Your Resend API key            | Same as local           |
-| `BASE_URL`              | `https://yourapp.vercel.app`   | Your production URL     |
-| `CLOUDINARY_CLOUD_NAME` | Your Cloudinary cloud name     | Same as local           |
-| `CLOUDINARY_API_KEY`    | Your Cloudinary API key        | Same as local           |
-| `CLOUDINARY_API_SECRET` | Your Cloudinary API secret     | Same as local           |
+| Variable                | Value                          | Notes                          |
+| ----------------------- | ------------------------------ | ------------------------------ |
+| `MONGODB_URI`           | Your MongoDB connection string | Same as local                  |
+| `JWT_SECRET`            | Strong random secret           | **Different from dev!**        |
+| `RESEND_API_KEY`        | Your Resend API key            | Same as local                  |
+| `EMAIL_FROM_NAME`       | Your organization name         | Optional                       |
+| `EMAIL_FROM_EMAIL`      | Your verified domain email     | e.g., `noreply@yourdomain.com` |
+| `BASE_URL`              | `https://yourapp.vercel.app`   | Your production URL            |
+| `CLOUDINARY_CLOUD_NAME` | Your Cloudinary cloud name     | Same as local                  |
+| `CLOUDINARY_API_KEY`    | Your Cloudinary API key        | Same as local                  |
+| `CLOUDINARY_API_SECRET` | Your Cloudinary API secret     | Same as local                  |
+| `MAIN_ADMIN`            | Your main admin email          | **Important!**                 |
 
 **Important:**
 
@@ -281,15 +298,16 @@ Add these in Vercel Dashboard → Settings → Environment Variables:
 
 1. ✅ **Strong Secrets**: Use 32+ character random strings for `JWT_SECRET`
 2. ✅ **Different Secrets**: Never use the same secrets in dev and production
-3. ✅ **MongoDB Security**:
+3. ✅ **Main Admin Protection**: Set `MAIN_ADMIN` to your primary email address - this account cannot be deleted, ensuring you always have access
+4. ✅ **MongoDB Security**:
    - Use strong database passwords
    - Whitelist specific IPs in production (not 0.0.0.0/0)
    - Enable MongoDB Atlas backups
-4. ✅ **Admin Passwords**: Require strong passwords (8+ characters, mixed case, numbers)
-5. ✅ **Email Domain**: Verify your domain in Resend for production
-6. ✅ **Regular Updates**: Keep dependencies updated
-7. ✅ **API Keys**: Rotate API keys every 90 days
-8. ✅ **Monitor**: Check MongoDB and Resend dashboards regularly
+5. ✅ **Admin Passwords**: Require strong passwords (8+ characters, mixed case, numbers)
+6. ✅ **Email Domain**: Verify your domain in Resend for production
+7. ✅ **Regular Updates**: Keep dependencies updated
+8. ✅ **API Keys**: Rotate API keys every 90 days
+9. ✅ **Monitor**: Check MongoDB and Resend dashboards regularly
 
 ---
 

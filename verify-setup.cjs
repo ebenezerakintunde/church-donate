@@ -96,6 +96,14 @@ if (fs.existsSync(envLocal)) {
       "⚠️  RESEND_API_KEY not configured (OTP will log to console)"
     );
   }
+
+  if (envContent.includes("MAIN_ADMIN")) {
+    checks.passed.push("✅ MAIN_ADMIN configured");
+  } else {
+    checks.warnings.push(
+      "⚠️  MAIN_ADMIN not configured (recommended for production)"
+    );
+  }
 } else {
   checks.failed.push("❌ .env.local not found - create it from .env.example");
 }

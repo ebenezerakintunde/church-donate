@@ -113,6 +113,203 @@ Verify OTP and get session token.
 
 ---
 
+### Admin Management (Protected)
+
+All admin management endpoints require authentication. Only authenticated admins can manage other admins.
+
+#### GET /api/admin
+
+Get all admin users.
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_SESSION_TOKEN
+```
+
+**Response:**
+
+```json
+{
+  "admins": [
+    {
+      "_id": "...",
+      "name": "Admin Name",
+      "email": "admin@example.com",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isMainAdmin": true
+    }
+  ],
+  "count": 1
+}
+```
+
+**Note:**
+
+- Passwords are excluded from the response for security
+- `isMainAdmin` flag indicates if the admin is the main administrator (set via `MAIN_ADMIN` env variable)
+
+#### POST /api/admin/invite
+
+Send an invitation to a new admin user.
+
+**Permission:** Only the main administrator can invite new admins
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_SESSION_TOKEN
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "New Admin",
+  "email": "newadmin@example.com"
+}
+```
+
+**Required Fields:**
+
+- `name` - Admin's full name
+- `email` - Admin's email address (must be unique)
+
+**Response:**
+
+```json
+{
+  "message": "Admin invitation sent successfully",
+  "admin": {
+    "_id": "...",
+    "name": "New Admin",
+    "email": "newadmin@example.com",
+    "status": "pending",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+**Note:**
+
+- The invited admin will receive an email with a link to set up their password
+- The invitation link expires in 7 days
+- In development mode without Resend configured, the invite URL is logged to the console
+
+**Error Responses:**
+
+```json
+{
+  "error": "Only the main administrator can invite new admins"
+}
+```
+
+#### POST /api/admin/accept-invite
+
+Accept an admin invitation and set password.
+
+**Request Body:**
+
+```json
+{
+  "token": "invitation-token-from-url",
+  "password": "securepassword123"
+}
+```
+
+**Required Fields:**
+
+- `token` - Invitation token from the URL
+- `password` - Password (minimum 8 characters)
+
+**Response:**
+
+```json
+{
+  "message": "Account activated successfully",
+  "admin": {
+    "_id": "...",
+    "name": "New Admin",
+    "email": "newadmin@example.com",
+    "status": "active"
+  }
+}
+```
+
+**Error Responses:**
+
+```json
+{
+  "error": "Invalid or expired invitation"
+}
+```
+
+```json
+{
+  "error": "Invitation has expired"
+}
+```
+
+#### DELETE /api/admin/[id]
+
+Delete an admin user.
+
+**Permission Rules:**
+
+- **Main Admin**: Can delete other admins (except themselves)
+- **Regular Admin**: Can only delete their own account
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_SESSION_TOKEN
+```
+
+**Response:**
+
+```json
+{
+  "message": "Admin deleted successfully"
+}
+```
+
+**Safeguards:**
+
+- Cannot delete the main administrator account (set via `MAIN_ADMIN` environment variable)
+- Cannot delete the last admin user in the system
+- Main admin cannot delete themselves
+- Regular admins can only delete their own account
+
+**Error Responses:**
+
+```json
+{
+  "error": "Cannot delete the main administrator account"
+}
+```
+
+```json
+{
+  "error": "Cannot delete the last admin user"
+}
+```
+
+```json
+{
+  "error": "Main admin cannot delete their own account"
+}
+```
+
+```json
+{
+  "error": "You can only delete your own account"
+}
+```
+
+---
+
 ### Church Management (Protected)
 
 All church management endpoints require authentication.
@@ -442,4 +639,41 @@ curl http://localhost:3000/api/church \
 
 ```bash
 curl http://localhost:3000/api/public/church/grace-church-abc123
+```
+
+### Get All Admins
+
+```bash
+curl http://localhost:3000/api/admin \
+  -H "Authorization: Bearer YOUR_SESSION_TOKEN"
+```
+
+### Send Admin Invitation
+
+```bash
+curl -X POST http://localhost:3000/api/admin/invite \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_SESSION_TOKEN" \
+  -d '{
+    "name": "New Admin",
+    "email": "newadmin@example.com"
+  }'
+```
+
+### Accept Admin Invitation
+
+```bash
+curl -X POST http://localhost:3000/api/admin/accept-invite \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "invitation-token-from-email",
+    "password": "securepass123"
+  }'
+```
+
+### Delete Admin
+
+```bash
+curl -X DELETE http://localhost:3000/api/admin/ADMIN_ID \
+  -H "Authorization: Bearer YOUR_SESSION_TOKEN"
 ```

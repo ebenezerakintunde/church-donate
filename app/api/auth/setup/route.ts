@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import connectDB from "@/lib/db";
-import Admin from "@/models/Admin";
+import Admin, { AdminStatus } from "@/models/Admin";
 import { hashPassword } from "@/lib/auth";
 import { errorResponse, successResponse } from "@/lib/middleware";
 
@@ -34,11 +34,12 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await hashPassword(password);
 
-    // Create admin
+    // Create admin with active status
     const admin = await Admin.create({
       email: email.toLowerCase(),
       password: hashedPassword,
       name,
+      status: AdminStatus.ACTIVE,
     });
 
     return successResponse(

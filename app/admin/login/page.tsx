@@ -156,9 +156,10 @@ function LoginContent() {
               </div>
             )}
 
-            <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg">
-              📧 A 6-digit code has been sent to your email. Please check your
-              inbox.
+            <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg text-center">
+              A 6-digit code has been sent to your email.
+              <br />
+              Please check your inbox.
             </div>
 
             <div>

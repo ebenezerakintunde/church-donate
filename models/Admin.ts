@@ -1,10 +1,14 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { AdminStatus } from "@/types/admin";
 
 export interface IAdmin extends Document {
   _id: string;
   email: string;
-  password: string;
+  password?: string;
   name: string;
+  status: AdminStatus;
+  inviteToken?: string;
+  inviteTokenExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,13 +25,33 @@ const AdminSchema: Schema<IAdmin> = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: [8, "Password must be at least 8 characters"],
+      required: false,
+      validate: {
+        validator: function (v: string) {
+          // Only validate length if password is provided
+          if (!v) return true;
+          return v.length >= 8;
+        },
+        message: "Password must be at least 8 characters",
+      },
     },
     name: {
       type: String,
       required: [true, "Name is required"],
       trim: true,
+    },
+    status: {
+      type: String,
+      enum: Object.values(AdminStatus),
+      default: AdminStatus.PENDING,
+    },
+    inviteToken: {
+      type: String,
+      required: false,
+    },
+    inviteTokenExpiry: {
+      type: Date,
+      required: false,
     },
   },
   {
@@ -36,7 +60,9 @@ const AdminSchema: Schema<IAdmin> = new Schema(
 );
 
 // Prevent model recompilation in development
-const Admin: Model<IAdmin> =
-  mongoose.models.Admin || mongoose.model<IAdmin>("Admin", AdminSchema);
+const Admin =
+  (mongoose.models.Admin as Model<IAdmin>) ||
+  mongoose.model<IAdmin>("Admin", AdminSchema);
 
 export default Admin;
+export { AdminStatus };

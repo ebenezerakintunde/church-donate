@@ -56,8 +56,11 @@ Edit `.env.local` with your actual values:
 - `NEXTAUTH_SECRET`: Random secret for NextAuth
 - `JWT_SECRET`: Random secret for JWT tokens
 - `RESEND_API_KEY`: Your Resend API key
+- `EMAIL_FROM_NAME`: Name shown in emails (optional, default: "ChurchDonate")
+- `EMAIL_FROM_EMAIL`: Email address for sending (optional, default: "onboarding@resend.dev")
 - `BASE_URL`: Your app URL (http://localhost:3000 for development)
-- `ADMIN_EMAIL` and `ADMIN_PASSWORD`: Initial admin credentials
+- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`: Cloudinary credentials
+- `MAIN_ADMIN`: Main admin email (cannot be deleted)
 
 4. Create the QR codes directory:
 

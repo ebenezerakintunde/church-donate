@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import connectDB from "@/lib/db";
-import Admin from "@/models/Admin";
+import Admin, { AdminStatus } from "@/models/Admin";
 import {
   comparePassword,
   generateToken,
@@ -41,6 +41,19 @@ export async function POST(request: NextRequest) {
     const admin = await Admin.findOne({ email: email.toLowerCase() });
 
     if (!admin) {
+      return errorResponse("Invalid email or password", 401);
+    }
+
+    // Check if admin account is active
+    if (admin.status === AdminStatus.PENDING) {
+      return errorResponse(
+        "Account not yet activated. Please check your email for the invitation link.",
+        401
+      );
+    }
+
+    // Check if password exists (should exist for active admins)
+    if (!admin.password) {
       return errorResponse("Invalid email or password", 401);
     }
 

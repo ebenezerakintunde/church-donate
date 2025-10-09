@@ -1,6 +1,10 @@
 import { Resend } from "resend";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || "ChurchDonate";
+const EMAIL_FROM_EMAIL =
+  process.env.EMAIL_FROM_EMAIL || "onboarding@resend.dev";
+const EMAIL_FROM = `${EMAIL_FROM_NAME} <${EMAIL_FROM_EMAIL}>`;
 
 if (!RESEND_API_KEY) {
   console.warn(
@@ -26,7 +30,7 @@ export async function sendOTPEmail(
 
   try {
     await resend.emails.send({
-      from: "ChurchDonate <onboarding@resend.dev>", // Update this with your verified domain
+      from: EMAIL_FROM,
       to: email,
       subject: "Your ChurchDonate Login Code",
       html: `
@@ -65,6 +69,70 @@ export async function sendOTPEmail(
     console.error("Failed to send OTP email:", error);
     // In development, log the OTP to console as fallback
     console.log(`📧 OTP for ${email}: ${otp}`);
+    return false;
+  }
+}
+
+/**
+ * Send admin invitation email
+ */
+export async function sendAdminInvite(
+  email: string,
+  name: string,
+  inviteUrl: string
+): Promise<boolean> {
+  if (!resend) {
+    console.error("Resend is not configured. Cannot send invitation email.");
+    // In development, log the invite URL to console
+    console.log(`📧 Admin invitation for ${email} (${name}): ${inviteUrl}`);
+    return false;
+  }
+
+  try {
+    await resend.emails.send({
+      from: EMAIL_FROM,
+      to: email,
+      subject: "You've been invited to ChurchDonate Admin",
+      html: `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">⛪ ChurchDonate</h1>
+            </div>
+            <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h2 style="color: #333; margin-top: 0;">Admin Invitation</h2>
+              <p>Hello ${name},</p>
+              <p>You've been invited to join ChurchDonate as an administrator. Click the button below to set up your account and create your password.</p>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${inviteUrl}" style="background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px;">Accept Invitation</a>
+              </div>
+              <p>Or copy and paste this link into your browser:</p>
+              <div style="background: white; border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-radius: 8px; word-break: break-all; font-size: 14px; color: #667eea;">
+                ${inviteUrl}
+              </div>
+              <p><strong>This invitation will expire in 7 days.</strong></p>
+              <p>If you didn't expect this invitation, you can safely ignore this email.</p>
+              <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+              <p style="font-size: 12px; color: #666;">
+                This is an automated email from ChurchDonate. Please do not reply to this message.
+              </p>
+            </div>
+          </body>
+        </html>
+      `,
+    });
+
+    console.log(`✅ Admin invitation email sent to ${email}`);
+    return true;
+  } catch (error) {
+    console.error("Failed to send invitation email:", error);
+    // In development, log the invite URL to console as fallback
+    console.log(`📧 Admin invitation for ${email} (${name}): ${inviteUrl}`);
     return false;
   }
 }
