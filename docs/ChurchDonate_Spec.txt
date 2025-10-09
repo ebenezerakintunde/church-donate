@@ -1,0 +1,76 @@
+ChurchDonate – Project Specification
+
+1. Overview
+ChurchDonate is a simple web application that allows an admin to create and manage profiles for churches.
+Each church profile includes donation bank details and automatically generates a unique public donation page with a QR code for sharing or printing.
+
+The system is designed to make church giving easy, secure, and accessible.
+
+2. Technology Stack
+Frontend: Next.js 14 (App Router, TypeScript, Tailwind CSS)
+Backend: Next.js API Routes (Serverless)
+Database: MongoDB (MongoDB Atlas)
+Authentication: Email + Password (NextAuth or custom auth)
+MFA (2FA): Email-based OTP using Resend
+QR Code Generator: qrcode npm library
+Hosting: Vercel (Frontend + API)
+Email Service: Resend (Transactional Email for OTP)
+
+3. System Roles
+Admin:
+- Secure login with email + password
+- Two-Factor Authentication (email OTP)
+- Manage churches (create, edit, delete)
+- Each church gets an auto-generated public donation page
+
+Public User:
+- Access a church’s donation page (via link or QR code)
+- View church details, donation bank info
+- Copy or share donation info easily
+
+4. Core Features
+Admin Dashboard
+- Login with MFA
+- Add new church: name, address, logo, description, donation bank details
+- System auto-generates a unique slug and QR code
+
+Church Donation Page
+- Clean design with name, logo, donation message, bank details, QR code, and buttons for Copy & Share
+
+Security
+- Protected admin routes with JWT
+- MFA with Resend OTP
+- Rate limiting for login attempts
+- HTTPS via Vercel
+
+5. Database Schema (Mongoose)
+(See models/Church.ts for detailed schema)
+
+6. API Endpoints
+POST /api/auth/login
+POST /api/auth/verify-otp
+GET /api/church
+POST /api/church
+PUT /api/church/:id
+DELETE /api/church/:id
+GET /api/public/church/:slug
+
+7. Folder Structure
+/app
+/models
+/lib
+/public/qrcodes
+
+8. QR Code Generation Example
+See lib/generateQr.ts
+
+9. Deployment Setup
+.env.local variables:
+MONGODB_URI, RESEND_API_KEY, JWT_SECRET, BASE_URL
+Deploy via Vercel with GitHub integration.
+
+10. Future Enhancements
+- Admin roles & permissions
+- Donation tracking
+- Multi-language support
+- Stripe/Paystack integration
