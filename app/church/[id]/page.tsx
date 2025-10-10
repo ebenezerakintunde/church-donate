@@ -3,6 +3,7 @@ import Link from "next/link";
 import ChurchDonationPage from "./ChurchDonationPage";
 import connectDB from "@/lib/db";
 import Church from "@/models/Church";
+import { generatePageMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -18,16 +19,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!church) {
       return {
         title: "Church Not Found - ChurchDonate",
+        robots: "noindex, nofollow",
       };
     }
 
-    return {
-      title: `${church.name} - Donation Page | ChurchDonate`,
-      description: `Support ${church.name}. ${church.description}`,
-    };
+    const churchName = church.name || "Church";
+    const description =
+      church.description ||
+      `Support ${churchName} through our secure donation page. View bank details, QR codes, and donation information.`;
+
+    return generatePageMetadata({
+      title: `${churchName} - Donation Page`,
+      description: `${description}`,
+      path: `/church/${id}`,
+      ogImage: church.logo || undefined,
+      keywords: [
+        `${churchName} donations`,
+        `donate to ${churchName}`,
+        "church donations",
+        "church giving",
+        "support church",
+        church.country ? `${church.country} church` : "church",
+      ],
+    });
   } catch (error) {
+    console.error("Error generating metadata:", error);
     return {
       title: "ChurchDonate",
+      robots: "noindex, nofollow",
     };
   }
 }

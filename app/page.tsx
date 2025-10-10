@@ -1,9 +1,19 @@
 import Image from "next/image";
 import PublicNav from "@/app/components/PublicNav";
+import { generateSoftwareApplicationSchema } from "@/lib/seo";
 
 export default function HomePage() {
+  const softwareSchema = generateSoftwareApplicationSchema();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900">
+      {/* Software Application Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareSchema),
+        }}
+      />
       <PublicNav />
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto text-center text-white">

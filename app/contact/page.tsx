@@ -1,15 +1,56 @@
 import { Metadata } from "next";
 import PublicNav from "@/app/components/PublicNav";
 import Link from "next/link";
+import { generatePageMetadata, generateFAQSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = generatePageMetadata({
   title: "Contact Us - ChurchDonate",
-  description: "Get in touch with ChurchDonate for support or inquiries.",
-};
+  description:
+    "Get in touch with ChurchDonate for support or inquiries. Our team is here to help with technical support, general questions, and onboarding assistance.",
+  path: "/contact",
+  keywords: [
+    "contact churchdonate",
+    "church donation support",
+    "customer support",
+    "technical help",
+    "church software assistance",
+  ],
+});
 
 export default function ContactPage() {
+  // FAQ Structured Data
+  const faqSchema = generateFAQSchema([
+    {
+      question: "What makes ChurchDonate different?",
+      answer:
+        "ChurchDonate focuses specifically on churches, providing donation information pages with QR codes rather than processing payments. This means no transaction fees, and donors send money directly to your church's bank account using their preferred banking method.",
+    },
+    {
+      question: "How secure is my church's information?",
+      answer:
+        "Very secure. We use enterprise-grade security measures including JWT-based authentication, 2FA, and encrypted data storage. Your church's information is protected with industry-standard security protocols.",
+    },
+    {
+      question: "Can I customize our donation page?",
+      answer:
+        "Yes! You can add your church logo, customize your description, include detailed bank information for multiple countries, add Revolut links, and include special instructions for donors.",
+    },
+    {
+      question: "Does ChurchDonate process payments?",
+      answer:
+        "No, ChurchDonate provides the donation information pages and QR codes. Donors send money directly to your church's bank account using their preferred banking method. You receive 100% of all donations without any payment processing intermediaries.",
+    },
+  ]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900">
+      {/* FAQ Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
       <PublicNav />
 
       <div className="container mx-auto px-4 py-12 md:py-16">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { getCountryName } from "@/lib/countries";
 import PublicNav from "@/app/components/PublicNav";
+import { generateChurchSchema } from "@/lib/seo";
 
 interface Church {
   _id: string;
@@ -29,6 +30,20 @@ interface Church {
 
 export default function ChurchDonationPage({ church }: { church: Church }) {
   const [copied, setCopied] = useState<string | null>(null);
+
+  // Generate structured data for the church
+  const BASE_URL =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_BASE_URL || "https://churchdonate.org";
+
+  const churchSchema = generateChurchSchema({
+    name: church.name,
+    description: church.description,
+    address: church.address,
+    logoUrl: church.logo,
+    url: `${BASE_URL}/church/${church.publicId}`,
+  });
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
@@ -81,7 +96,7 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
         });
       } catch (error) {
         // User cancelled or error occurred
-        console.log("Share cancelled");
+        console.error("Share cancelled", error);
       }
     } else {
       copyToClipboard(shareUrl, "url");
@@ -90,6 +105,13 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900">
+      {/* Church Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(churchSchema),
+        }}
+      />
       <PublicNav />
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-6xl mx-auto">

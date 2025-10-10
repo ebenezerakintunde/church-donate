@@ -2,12 +2,22 @@ import { Metadata } from "next";
 import PublicNav from "@/app/components/PublicNav";
 import Link from "next/link";
 import Image from "next/image";
+import { generatePageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = generatePageMetadata({
   title: "Pricing - ChurchDonate",
   description:
-    "Simple, transparent pricing to keep ChurchDonate running for churches everywhere.",
-};
+    "Simple, transparent pricing at €50/year per church. No hidden fees, no transaction costs. Keep 100% of your donations with ChurchDonate.",
+  path: "/pricing",
+  keywords: [
+    "churchdonate pricing",
+    "church donation software cost",
+    "church giving platform pricing",
+    "affordable church software",
+    "church donation fees",
+    "no transaction fees",
+  ],
+});
 
 export default function PricingPage() {
   return (
@@ -41,7 +51,7 @@ export default function PricingPage() {
                 simplicity, excellence, and integrity. To keep the platform
                 secure, reliable, and growing, we invite each church to
                 contribute a small annual platform support of{" "}
-                <span className="text-white font-bold text-2xl">€50</span>.
+                <span className="text-white font-bold text-lg">€50</span>.
               </p>
               <p className="text-primary-200 leading-relaxed text-lg">
                 This contribution helps cover hosting, maintenance, and ongoing

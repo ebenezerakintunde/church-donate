@@ -1,0 +1,22 @@
+{
+  "name": "ChurchDonate - Simplified Church Giving",
+  "short_name": "ChurchDonate",
+  "description": "Create and manage church donation pages with QR codes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e3a8a",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logos/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logos/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

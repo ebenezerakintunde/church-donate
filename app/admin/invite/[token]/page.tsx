@@ -35,6 +35,7 @@ export default function AcceptInvitePage() {
           setError(data.error || "Invalid or expired invitation");
         }
       } catch (err) {
+        console.error("Error verifying invitation:", err);
         setError("Failed to verify invitation");
       } finally {
         setVerifying(false);
@@ -85,6 +86,7 @@ export default function AcceptInvitePage() {
         setError(data.error || "Failed to accept invitation");
       }
     } catch (err) {
+      console.error("Error accepting invitation:", err);
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);

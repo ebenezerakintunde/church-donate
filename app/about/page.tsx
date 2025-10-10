@@ -1,12 +1,22 @@
 import { Metadata } from "next";
 import PublicNav from "@/app/components/PublicNav";
 import Link from "next/link";
+import { generatePageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = generatePageMetadata({
   title: "About Us - ChurchDonate",
   description:
-    "Learn more about ChurchDonate and our mission to make church giving simple, safe, and easy to share.",
-};
+    "Learn more about ChurchDonate and our mission to make church giving simple, safe, and easy to share. Trusted by churches worldwide for secure donation management.",
+  path: "/about",
+  keywords: [
+    "about churchdonate",
+    "church donation platform",
+    "church giving software",
+    "digital church donations",
+    "church management tools",
+    "about us",
+  ],
+});
 
 export default function AboutPage() {
   return (
