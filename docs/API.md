@@ -15,7 +15,130 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 ## Endpoints
 
-### Authentication
+### Manager Authentication
+
+#### POST /api/manager/login
+
+Manager login - sends OTP to email if user is a manager of any church.
+
+**Request Body:**
+
+```json
+{
+  "email": "manager@church.com"
+}
+```
+
+**Response:**
+
+```json
+{
+  "message": "Login code sent to your email",
+  "tempToken": "eyJhbGciOiJIUzI1...",
+  "email": "manager@church.com"
+}
+```
+
+**Rate Limiting:** 5 attempts per 5 minutes per email/IP combination. Managers can only request a new code every 5 minutes.
+
+**Notes:**
+
+- OTP expires in 10 minutes
+- Session lasts 1 hour
+- No password required, OTP-only authentication
+
+#### POST /api/manager/verify-otp
+
+Verify manager OTP and get session token.
+
+**Request Body:**
+
+```json
+{
+  "tempToken": "eyJhbGciOiJIUzI1...",
+  "otp": "123456"
+}
+```
+
+**Response:**
+
+```json
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1...",
+  "email": "manager@church.com"
+}
+```
+
+**Notes:**
+
+- Maximum 5 OTP verification attempts before requiring a new code
+- Session token expires in 1 hour
+
+#### GET /api/manager/churches
+
+Get all churches managed by the authenticated manager.
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_MANAGER_TOKEN
+```
+
+**Response:**
+
+```json
+{
+  "churches": [...],
+  "count": 2
+}
+```
+
+#### GET /api/manager/church/[id]
+
+Get a specific church (if manager has access).
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_MANAGER_TOKEN
+```
+
+**Response:**
+
+```json
+{
+  "church": {...}
+}
+```
+
+#### PUT /api/manager/church/[id]
+
+Update a church (if manager has access).
+
+**Headers:**
+
+```
+Authorization: Bearer YOUR_MANAGER_TOKEN
+```
+
+**Request Body:**
+Same structure as admin church update, but:
+
+- Cannot change `publicId`, `slug`, or regenerate QR codes
+- Cannot remove themselves as a manager
+- Can upload new logo
+
+**Response:**
+
+```json
+{
+  "message": "Church updated successfully",
+  "church": {...}
+}
+```
+
+### Admin Authentication
 
 #### POST /api/auth/setup
 

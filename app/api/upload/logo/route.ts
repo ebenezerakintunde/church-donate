@@ -5,16 +5,19 @@ import {
   errorResponse,
   successResponse,
 } from "@/lib/middleware";
+import { authenticateManagerRequest } from "@/lib/managerAuth";
 
 /**
  * POST /api/upload/logo - Upload a church logo to Cloudinary
  */
 export async function POST(request: NextRequest) {
   try {
-    // Authenticate
-    const auth = authenticateRequest(request);
-    if (!auth.authenticated) {
-      return errorResponse(auth.error || "Unauthorized", 401);
+    // Authenticate (accept both admin and manager)
+    const adminAuth = authenticateRequest(request);
+    const managerAuth = authenticateManagerRequest(request);
+
+    if (!adminAuth.authenticated && !managerAuth.authenticated) {
+      return errorResponse("Unauthorized", 401);
     }
 
     const body = await request.json();

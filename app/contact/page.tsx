@@ -62,9 +62,9 @@ export default function ContactPage() {
                     issues? Our support team is ready to assist.
                   </p>
                   <a
-                    href="mailto:support@churchdonate.com"
+                    href="mailto:support@churchdonate.org"
                     className="text-primary-300 hover:text-white transition-colors font-medium">
-                    support@churchdonate.com
+                    support@churchdonate.org
                   </a>
                 </div>
 
@@ -92,9 +92,9 @@ export default function ContactPage() {
                     about what we offer?
                   </p>
                   <a
-                    href="mailto:info@churchdonate.com"
+                    href="mailto:info@churchdonate.org"
                     className="text-primary-300 hover:text-white transition-colors font-medium">
-                    info@churchdonate.com
+                    info@churchdonate.org
                   </a>
                 </div>
               </div>

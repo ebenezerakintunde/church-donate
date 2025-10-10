@@ -39,10 +39,8 @@ CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
 
 # Main Admin Email (Cannot be deleted - protects main admin account)
+# Also receives Get Started form notifications
 MAIN_ADMIN=your-email@example.com
-
-# Main Admin Email for Get Started notifications
-MAIN_ADMIN_EMAIL=admin@yourdomain.com
 ```
 
 **Quick Secret Generation:**
@@ -289,10 +287,10 @@ Add these in Vercel Dashboard → Settings → Environment Variables:
 ### 6. Custom Domain (Optional)
 
 1. In Vercel Dashboard → Settings → Domains
-2. Add your custom domain (e.g., `churchdonate.com`)
+2. Add your custom domain (e.g., `churchdonate.org`)
 3. Follow DNS configuration instructions
 4. Update environment variables:
-   - `BASE_URL` → `https://churchdonate.com`
+   - `BASE_URL` → `https://churchdonate.org`
 5. Redeploy
 
 ---

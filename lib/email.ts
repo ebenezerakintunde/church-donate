@@ -43,7 +43,7 @@ export async function sendOTPEmail(
           <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background: linear-gradient(135deg, #5b21b6 0%, #7e22ce 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
               <img src="${
-                process.env.BASE_URL || "https://churchdonate.com"
+                process.env.BASE_URL || "https://churchdonate.org"
               }/logos/full-logo.svg" alt="ChurchDonate" style="height: 40px; width: auto;" />
             </div>
             <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
@@ -105,7 +105,7 @@ export async function sendAdminInvite(
           <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background: linear-gradient(135deg, #5b21b6 0%, #7e22ce 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
               <img src="${
-                process.env.BASE_URL || "https://churchdonate.com"
+                process.env.BASE_URL || "https://churchdonate.org"
               }/logos/full-logo.svg" alt="ChurchDonate" style="height: 40px; width: auto;" />
             </div>
             <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
@@ -166,8 +166,7 @@ export async function sendGetStartedNotification(
     return false;
   }
 
-  const MAIN_ADMIN_EMAIL =
-    process.env.MAIN_ADMIN_EMAIL || "admin@churchdonate.com";
+  const MAIN_ADMIN_EMAIL = process.env.MAIN_ADMIN || "admin@churchdonate.org";
 
   try {
     await resend.emails.send({
@@ -185,7 +184,7 @@ export async function sendGetStartedNotification(
           <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background: linear-gradient(135deg, #5b21b6 0%, #7e22ce 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
               <img src="${
-                process.env.BASE_URL || "https://churchdonate.com"
+                process.env.BASE_URL || "https://churchdonate.org"
               }/logos/full-logo.svg" alt="ChurchDonate" style="height: 40px; width: auto;" />
             </div>
             <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
@@ -243,6 +242,68 @@ export async function sendGetStartedNotification(
       phone,
       message,
     });
+    return false;
+  }
+}
+
+/**
+ * Send OTP email to manager
+ */
+export async function sendManagerOTPEmail(
+  email: string,
+  otp: string
+): Promise<boolean> {
+  if (!resend) {
+    console.error("Resend is not configured. Cannot send manager OTP email.");
+    // In development, log the OTP to console
+    console.log(`📧 Manager OTP for ${email}: ${otp}`);
+    return false;
+  }
+
+  try {
+    await resend.emails.send({
+      from: EMAIL_FROM,
+      to: email,
+      subject: "Your ChurchDonate Manager Login Code",
+      html: `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="background: linear-gradient(135deg, #5b21b6 0%, #7e22ce 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+              <img src="${
+                process.env.BASE_URL || "https://churchdonate.org"
+              }/logos/full-logo.svg" alt="ChurchDonate" style="height: 40px; width: auto;" />
+            </div>
+            <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h2 style="color: #333; margin-top: 0;">Your Manager Login Code</h2>
+              <p>Hello,</p>
+              <p>You requested to log in to manage your church profiles. Use the code below to access your dashboard:</p>
+              <div style="background: white; border: 2px dashed #7e22ce; padding: 20px; margin: 20px 0; text-align: center; border-radius: 8px;">
+                <h1 style="color: #7e22ce; margin: 0; font-size: 36px; letter-spacing: 8px; font-family: 'Courier New', monospace;">${otp}</h1>
+              </div>
+              <p><strong>This code will expire in 10 minutes.</strong></p>
+              <p>Your session will last for 1 hour after logging in.</p>
+              <p>If you didn't request this code, please ignore this email.</p>
+              <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+              <p style="font-size: 12px; color: #666;">
+                This is an automated email from ChurchDonate. Please do not reply to this message.
+              </p>
+            </div>
+          </body>
+        </html>
+      `,
+    });
+
+    console.log(`✅ Manager OTP email sent to ${email}`);
+    return true;
+  } catch (error) {
+    console.error("Failed to send manager OTP email:", error);
+    // In development, log the OTP to console as fallback
+    console.log(`📧 Manager OTP for ${email}: ${otp}`);
     return false;
   }
 }

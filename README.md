@@ -18,6 +18,7 @@ ChurchDonate is a simple web application that allows an admin to create and mana
 - **Database**: MongoDB (MongoDB Atlas)
 - **Authentication**: Email + Password with 2FA OTP
 - **Email Service**: Resend (for OTP delivery)
+- **Email Forwarding**: ImprovMX (admin@, support@, info@ → churchdonateonline@gmail.com)
 - **QR Code Generation**: qrcode npm library
 - **Hosting**: Vercel
 
@@ -186,4 +187,10 @@ MIT
 
 ## Support
 
-For issues and questions, please open an issue on GitHub.
+For issues and questions:
+
+- Open an issue on GitHub
+- Email: support@churchdonate.org (forwarded to churchdonateonline@gmail.com)
+- Contact: admin@churchdonate.org or info@churchdonate.org
+
+**Email Configuration Note**: All domain emails (admin@, support@, info@churchdonate.org) are forwarded to churchdonateonline@gmail.com using ImprovMX email forwarding service.
