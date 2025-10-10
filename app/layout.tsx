@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   }),
   icons: {
     icon: [
-      { url: "/logos/church-donate-web-logo.svg", type: "image/svg+xml" },
-      { url: "/logos/church-donate-web-logo.png", type: "image/png" },
+      { url: "/logos/icon.svg", type: "image/svg+xml" },
+      { url: "/logos/icon.png", type: "image/png" },
     ],
-    apple: "/logos/church-donate-web-logo.png",
-    shortcut: "/logos/church-donate-web-logo.png",
+    apple: "/logos/icon.png",
+    shortcut: "/logos/icon.png",
   },
   manifest: "/site.webmanifest",
 };
