@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
       address,
       description,
       logo,
+      themeColor,
       managerEmails,
       bankDetails,
     } = body;
@@ -103,6 +104,7 @@ export async function POST(request: NextRequest) {
       address,
       description,
       logo,
+      themeColor,
       managerEmails,
       bankDetails,
       qrCodePath,

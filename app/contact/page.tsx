@@ -33,7 +33,12 @@ export default function ContactPage() {
     {
       question: "Can I customize our donation page?",
       answer:
-        "Yes! You can add your church logo, customize your description, include detailed bank information for multiple countries, add Revolut links, and include special instructions for donors.",
+        "Yes! You can add your church logo, customize your description, include detailed bank information for multiple countries, add Revolut links, choose custom theme colors to match your branding, and include special instructions for donors. The entire donation page can reflect your church's visual identity.",
+    },
+    {
+      question: "Can I use my church's brand colors?",
+      answer:
+        "Absolutely! Every church can choose a custom theme color that automatically transforms the entire donation page to match your church's branding. The system generates beautiful color palettes, gradients, and accents from your chosen color—making your page feel truly yours while maintaining professional design and readability.",
     },
     {
       question: "Does ChurchDonate process payments?",
@@ -179,8 +184,24 @@ export default function ContactPage() {
                   <p className="text-primary-200">
                     Yes! You can add your church logo, customize your
                     description, include detailed bank information for multiple
-                    countries, add Revolut links, and include special
-                    instructions for donors.
+                    countries, add Revolut links, choose custom theme colors to
+                    match your church&apos;s branding, and include special
+                    instructions for donors. The entire donation page can
+                    reflect your church&apos;s visual identity.
+                  </p>
+                </div>
+
+                <div className="bg-white/5 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Can I use my church&apos;s brand colors?
+                  </h3>
+                  <p className="text-primary-200">
+                    Absolutely! Every church can choose a custom theme color
+                    that automatically transforms the entire donation page to
+                    match your church&apos;s branding. The system generates
+                    beautiful color palettes, gradients, and accents from your
+                    chosen color—making your page feel truly yours while
+                    maintaining professional design and readability.
                   </p>
                 </div>
 

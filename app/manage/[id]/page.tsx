@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { countries } from "@/lib/countries";
 import Image from "next/image";
 import Link from "next/link";
+import ThemeColorPicker from "@/app/components/ThemeColorPicker";
 
 interface Church {
   _id: string;
@@ -15,6 +16,7 @@ interface Church {
   address: string;
   description: string;
   logo?: string;
+  themeColor?: string;
   managerEmails?: string[];
   bankDetails: {
     bankName: string;
@@ -57,6 +59,7 @@ export default function ManageChurchPage({
     address: "",
     description: "",
     logo: "",
+    themeColor: "",
     bankName: "",
     accountName: "",
     iban: "",
@@ -129,6 +132,7 @@ export default function ManageChurchPage({
         address: churchData.address || "",
         description: churchData.description || "",
         logo: churchData.logo || "",
+        themeColor: churchData.themeColor || "",
         bankName: churchData.bankDetails.bankName || "",
         accountName: churchData.bankDetails.accountName || "",
         iban: churchData.bankDetails.iban || "",
@@ -286,6 +290,7 @@ export default function ManageChurchPage({
           address: formData.address,
           description: formData.description,
           logo: logoUrl || undefined,
+          themeColor: formData.themeColor || undefined,
           managerEmails: managerEmails.length > 0 ? managerEmails : undefined,
           bankDetails: {
             bankName: formData.bankName,
@@ -710,6 +715,16 @@ export default function ManageChurchPage({
             <p className="mt-1 text-xs text-gray-500">
               PNG, JPG, or SVG. Max 5MB.
             </p>
+          </div>
+
+          {/* Theme Color Picker */}
+          <div>
+            <ThemeColorPicker
+              value={formData.themeColor}
+              onChange={(color) =>
+                setFormData({ ...formData, themeColor: color })
+              }
+            />
           </div>
 
           {/* Bank Details Section */}

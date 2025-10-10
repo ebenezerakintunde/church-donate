@@ -4,6 +4,8 @@ import { useState } from "react";
 import { getCountryName } from "@/lib/countries";
 import PublicNav from "@/app/components/PublicNav";
 import { generateChurchSchema } from "@/lib/seo";
+import { getThemeStyles } from "@/lib/colorUtils";
+import { Copy, Check } from "lucide-react";
 
 interface Church {
   _id: string;
@@ -14,6 +16,7 @@ interface Church {
   address: string;
   description: string;
   logo?: string;
+  themeColor?: string;
   bankDetails: {
     bankName: string;
     accountName: string;
@@ -44,6 +47,15 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
     logoUrl: church.logo,
     url: `${BASE_URL}/church/${church.publicId}`,
   });
+
+  // Get theme styles based on church's theme color
+  const theme = getThemeStyles(church.themeColor);
+
+  // Button styling - uses theme color if available, otherwise defaults to primary colors
+  const buttonClass = church.themeColor
+    ? "text-white px-4 py-2 md:px-6 md:py-3 rounded-lg transition-all text-sm font-medium md:font-semibold shadow-lg hover:opacity-90"
+    : "bg-primary-800 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium md:font-semibold shadow-lg";
+  const buttonStyle = church.themeColor ? theme.buttonStyle : undefined;
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
@@ -104,7 +116,13 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900">
+    <div
+      className={`min-h-screen ${
+        !church.themeColor
+          ? "bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900"
+          : ""
+      }`}
+      style={church.themeColor ? theme.bgGradientStyle : undefined}>
       {/* Church Structured Data */}
       <script
         type="application/ld+json"
@@ -112,13 +130,22 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
           __html: JSON.stringify(churchSchema),
         }}
       />
-      <PublicNav />
+      <PublicNav
+        textColor={church.themeColor ? theme.textLightColor : undefined}
+        useTheme={!!church.themeColor}
+      />
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-6xl mx-auto">
           {/* Main Card */}
           <div className="bg-white shadow-2xl overflow-hidden">
             {/* Church Info Section */}
-            <div className="bg-gradient-to-r from-primary-800 to-primary-900 text-white p-8 md:p-12 text-center">
+            <div
+              className={`text-white p-8 md:p-12 text-center ${
+                !church.themeColor
+                  ? "bg-gradient-to-r from-primary-800 to-primary-900"
+                  : ""
+              }`}
+              style={church.themeColor ? theme.headerGradientStyle : undefined}>
               {church.logo && (
                 <div className="mb-6 flex justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -133,14 +160,38 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                 {church.name}
               </h1>
               {church.nickname && (
-                <p className="text-xl md:text-2xl text-primary-300 mb-4 italic">
+                <p
+                  className={`text-xl md:text-2xl mb-4 italic ${
+                    !church.themeColor ? "text-primary-300" : ""
+                  }`}
+                  style={
+                    church.themeColor
+                      ? { color: theme.textAccentColor }
+                      : undefined
+                  }>
                   &ldquo;{church.nickname}&rdquo;
                 </p>
               )}
-              <p className="text-base md:text-xl text-primary-200 mb-2">
+              <p
+                className={`text-base md:text-xl mb-2 ${
+                  !church.themeColor ? "text-primary-200" : ""
+                }`}
+                style={
+                  church.themeColor
+                    ? { color: theme.textLightColor }
+                    : undefined
+                }>
                 📍 {church.address}, {getCountryName(church.country)}
               </p>
-              <p className="text-base md:text-lg text-primary-300 max-w-2xl mx-auto">
+              <p
+                className={`text-base md:text-lg max-w-2xl mx-auto ${
+                  !church.themeColor ? "text-primary-300" : ""
+                }`}
+                style={
+                  church.themeColor
+                    ? { color: theme.textAccentColor }
+                    : undefined
+                }>
                 {church.description}
               </p>
             </div>
@@ -151,16 +202,37 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-6 md:mb-8">
                 Donation Details
               </h3>
-              <div className="bg-gradient-to-r from-primary-50 to-primary-100 rounded-xl md:rounded-2xl p-4 md:p-8">
+              <div
+                className={`rounded-xl md:rounded-2xl p-4 md:p-8 ${
+                  !church.themeColor
+                    ? "bg-gradient-to-r from-primary-50 to-primary-100"
+                    : ""
+                }`}
+                style={
+                  church.themeColor
+                    ? {
+                        background: `linear-gradient(to right, ${theme.palette?.[50]}, ${theme.palette?.[100]})`,
+                      }
+                    : undefined
+                }>
                 <div className="flex flex-col items-center gap-4 mb-4 md:mb-6">
                   <button
                     onClick={() =>
                       copyToClipboard(getAllDonationDetails(), "all")
                     }
-                    className="w-full md:w-auto bg-primary-800 text-white px-6 py-3 rounded-lg hover:bg-primary-900 transition-colors text-sm font-semibold shadow-lg">
-                    {copied === "all"
-                      ? "✓ All Details Copied!"
-                      : "📋 Copy All Details"}
+                    className={`w-full md:w-auto ${buttonClass} flex items-center justify-center gap-2`}
+                    style={buttonStyle}>
+                    {copied === "all" ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        All Details Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        Copy All Details
+                      </>
+                    )}
                   </button>
                 </div>
 
@@ -183,7 +255,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                             "bankName"
                           )
                         }
-                        className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                        className={`w-full md:w-auto ${buttonClass.replace(
+                          "md:px-6 md:py-3",
+                          "px-4 py-2"
+                        )} shrink-0`}
+                        style={buttonStyle}>
                         {copied === "bankName" ? "✓ Copied" : "Copy"}
                       </button>
                     </div>
@@ -207,7 +283,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                             "accountName"
                           )
                         }
-                        className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                        className={`w-full md:w-auto ${buttonClass.replace(
+                          "md:px-6 md:py-3",
+                          "px-4 py-2"
+                        )} shrink-0`}
+                        style={buttonStyle}>
                         {copied === "accountName" ? "✓ Copied" : "Copy"}
                       </button>
                     </div>
@@ -232,7 +312,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                           onClick={() =>
                             copyToClipboard(church.bankDetails.iban!, "iban")
                           }
-                          className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                          className={`w-full md:w-auto ${buttonClass.replace(
+                            "md:px-6 md:py-3",
+                            "px-4 py-2"
+                          )} shrink-0`}
+                          style={buttonStyle}>
                           {copied === "iban" ? "✓ Copied" : "Copy"}
                         </button>
                       </div>
@@ -261,7 +345,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                                   "accountNumber"
                                 )
                               }
-                              className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                              className={`w-full md:w-auto ${buttonClass.replace(
+                                "md:px-6 md:py-3",
+                                "px-4 py-2"
+                              )} shrink-0`}
+                              style={buttonStyle}>
                               {copied === "accountNumber" ? "✓ Copied" : "Copy"}
                             </button>
                           </div>
@@ -286,7 +374,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                                   "sortCode"
                                 )
                               }
-                              className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                              className={`w-full md:w-auto ${buttonClass.replace(
+                                "md:px-6 md:py-3",
+                                "px-4 py-2"
+                              )} shrink-0`}
+                              style={buttonStyle}>
                               {copied === "sortCode" ? "✓ Copied" : "Copy"}
                             </button>
                           </div>
@@ -320,7 +412,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                                   "swiftCode"
                                 )
                               }
-                              className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                              className={`w-full md:w-auto ${buttonClass.replace(
+                                "md:px-6 md:py-3",
+                                "px-4 py-2"
+                              )} shrink-0`}
+                              style={buttonStyle}>
                               {copied === "swiftCode" ? "✓ Copied" : "Copy"}
                             </button>
                           </div>
@@ -345,7 +441,11 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                                   "routingNumber"
                                 )
                               }
-                              className="w-full md:w-auto bg-primary-800 text-white px-4 py-2 rounded-lg hover:bg-primary-900 transition-colors text-sm font-medium shrink-0">
+                              className={`w-full md:w-auto ${buttonClass.replace(
+                                "md:px-6 md:py-3",
+                                "px-4 py-2"
+                              )} shrink-0`}
+                              style={buttonStyle}>
                               {copied === "routingNumber" ? "✓ Copied" : "Copy"}
                             </button>
                           </div>
@@ -482,7 +582,8 @@ export default function ChurchDonationPage({ church }: { church: Church }) {
                 </button>
                 <button
                   onClick={handleShare}
-                  className="flex-1 bg-primary-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg md:rounded-xl hover:bg-primary-900 transition-colors font-semibold text-base md:text-lg shadow-lg flex items-center justify-center gap-2">
+                  className={`flex-1 ${buttonClass} flex items-center justify-center gap-2`}
+                  style={buttonStyle}>
                   <svg
                     className="w-5 h-5"
                     fill="none"

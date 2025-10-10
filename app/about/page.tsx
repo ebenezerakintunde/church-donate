@@ -113,6 +113,9 @@ export default function AboutPage() {
                       SWIFT/BIC, Routing Number)
                     </li>
                     <li>• Support for direct payment links such as Revolut</li>
+                    <li>
+                      • Custom theme colors to match your church&apos;s branding
+                    </li>
                     <li>• One-click copy buttons for all account details</li>
                     <li>
                       • A print-friendly layout perfect for bulletins and flyers
@@ -179,6 +182,51 @@ export default function AboutPage() {
                     <span>
                       Just scan, view, and give — simple and familiar for
                       everyone.
+                    </span>
+                  </p>
+                </div>
+
+                {/* Custom Branding */}
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <svg
+                      className="w-6 h-6 text-primary-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                      />
+                    </svg>
+                    <h3 className="text-xl font-semibold text-white">
+                      Custom Church Branding
+                    </h3>
+                  </div>
+                  <p className="text-primary-200 leading-relaxed mb-3">
+                    Choose your church&apos;s brand color and watch the entire
+                    donation page transform to match. Our system automatically
+                    generates beautiful gradients, buttons, and accents from
+                    your chosen color — no design skills required.
+                  </p>
+                  <p className="text-primary-300 mt-4 italic flex items-start gap-2">
+                    <svg
+                      className="w-5 h-5 shrink-0 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>
+                      Your page, your colors — professional and on-brand every
+                      time.
                     </span>
                   </p>
                 </div>

@@ -94,6 +94,7 @@ export async function PUT(
       address,
       description,
       logo,
+      themeColor,
       managerEmails,
       bankDetails,
     } = body;
@@ -119,6 +120,7 @@ export async function PUT(
       address: string;
       description: string;
       logo?: string;
+      themeColor?: string;
       managerEmails?: string[];
       bankDetails: typeof existingChurch.bankDetails;
     } = {
@@ -128,6 +130,8 @@ export async function PUT(
       address: address || existingChurch.address,
       description: description || existingChurch.description,
       logo: logo !== undefined ? logo : existingChurch.logo,
+      themeColor:
+        themeColor !== undefined ? themeColor : existingChurch.themeColor,
       managerEmails:
         managerEmails !== undefined
           ? managerEmails

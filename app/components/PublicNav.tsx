@@ -5,7 +5,15 @@ import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-export default function PublicNav() {
+interface PublicNavProps {
+  textColor?: string; // Theme color for text (light shade)
+  useTheme?: boolean; // Whether to use theme styling
+}
+
+export default function PublicNav({
+  textColor,
+  useTheme = false,
+}: PublicNavProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -48,16 +56,27 @@ export default function PublicNav() {
                 key={item.name}
                 href={item.href}
                 className={`text-sm font-medium transition-colors ${
-                  isActive(item.href)
+                  useTheme
+                    ? isActive(item.href)
+                      ? "text-white"
+                      : "hover:text-white"
+                    : isActive(item.href)
                     ? "text-white"
                     : "text-primary-200 hover:text-white"
-                }`}>
+                }`}
+                style={
+                  useTheme && !isActive(item.href) && textColor
+                    ? { color: textColor }
+                    : undefined
+                }>
                 {item.name}
               </Link>
             ))}
             <Link
               href="/get-started"
-              className="bg-white text-primary-900 px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary-100 transition-colors">
+              className={`bg-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary-100 transition-colors ${
+                useTheme ? "text-gray-900" : "text-primary-900"
+              }`}>
               Get Started
             </Link>
           </div>
@@ -100,17 +119,28 @@ export default function PublicNav() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-sm font-medium transition-colors ${
-                    isActive(item.href)
+                    useTheme
+                      ? isActive(item.href)
+                        ? "text-white"
+                        : "hover:text-white"
+                      : isActive(item.href)
                       ? "text-white"
                       : "text-primary-200 hover:text-white"
-                  }`}>
+                  }`}
+                  style={
+                    useTheme && !isActive(item.href) && textColor
+                      ? { color: textColor }
+                      : undefined
+                  }>
                   {item.name}
                 </Link>
               ))}
               <Link
                 href="/get-started"
                 onClick={() => setMobileMenuOpen(false)}
-                className="bg-white text-primary-900 px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary-100 transition-colors text-center">
+                className={`bg-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary-100 transition-colors text-center ${
+                  useTheme ? "text-gray-900" : "text-primary-900"
+                }`}>
                 Get Started
               </Link>
             </div>

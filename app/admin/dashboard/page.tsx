@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { countries, getCountryName } from "@/lib/countries";
 import AdminLayout from "../components/AdminLayout";
+import ThemeColorPicker from "@/app/components/ThemeColorPicker";
 
 interface Church {
   _id: string;
@@ -15,6 +16,7 @@ interface Church {
   address: string;
   description: string;
   logo?: string;
+  themeColor?: string;
   managerEmails?: string[];
   bankDetails: {
     bankName: string;
@@ -945,6 +947,7 @@ function ChurchModal({
     address: church?.address || "",
     description: church?.description || "",
     logo: church?.logo || "",
+    themeColor: church?.themeColor || "",
     bankName: church?.bankDetails.bankName || "",
     accountName: church?.bankDetails.accountName || "",
     iban: church?.bankDetails.iban || "",
@@ -1047,6 +1050,7 @@ function ChurchModal({
           address: formData.address,
           description: formData.description,
           logo: formData.logo || undefined,
+          themeColor: formData.themeColor || undefined,
           managerEmails: managerEmails.length > 0 ? managerEmails : undefined,
           bankDetails: {
             bankName: formData.bankName,
@@ -1410,6 +1414,16 @@ function ChurchModal({
             <p className="text-xs text-gray-500 mt-1">
               Recommended: Square image, max 5MB
             </p>
+          </div>
+
+          {/* Theme Color Picker */}
+          <div>
+            <ThemeColorPicker
+              value={formData.themeColor}
+              onChange={(color) =>
+                setFormData({ ...formData, themeColor: color })
+              }
+            />
           </div>
 
           <div className="border-t border-gray-200 pt-6">

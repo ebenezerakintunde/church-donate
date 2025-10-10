@@ -22,6 +22,7 @@ export interface IChurch extends Document {
   address: string;
   description: string;
   logo?: string;
+  themeColor?: string; // Optional hex color for custom theming (e.g., "#3b82f6")
   managerEmails?: string[]; // Array of emails for profile managers (max 3, not shown on public pages)
   bankDetails: IBankDetails;
   qrCodePath: string;
@@ -125,6 +126,18 @@ const ChurchSchema: Schema<IChurch> = new Schema(
     logo: {
       type: String,
       trim: true,
+    },
+    themeColor: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function (color: string) {
+          if (!color) return true; // Optional field
+          // Validate hex color format
+          return /^#[0-9A-Fa-f]{6}$/.test(color);
+        },
+        message: "Theme color must be a valid hex color (e.g., #3b82f6)",
+      },
     },
     managerEmails: {
       type: [String],
