@@ -371,6 +371,7 @@ Authorization: Bearer YOUR_SESSION_TOKEN
   "address": "123 Main St, City, State",
   "description": "A welcoming community church serving our neighborhood",
   "logo": "https://example.com/logo.png",
+  "managerEmails": ["manager@gracechurch.com", "admin@gracechurch.com"],
   "bankDetails": {
     "accountName": "Grace Community Church",
     "accountNumber": "1234567890",
@@ -381,6 +382,8 @@ Authorization: Bearer YOUR_SESSION_TOKEN
   }
 }
 ```
+
+**Note:** `managerEmails` is optional (max 3 emails) and used for future profile management access. These emails are stored but not displayed on public donation pages.
 
 **Required Fields:**
 

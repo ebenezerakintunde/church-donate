@@ -1,0 +1,98 @@
+About ChurchDonate
+Making Church Giving Simple, Safe, and Easy to Share
+
+ChurchDonate was created to help churches stay connected with their members in a simple, trusted way.
+It provides a clear and convenient place where people can easily find their church’s verified account details whenever they need them.
+
+Our heart is to make giving effortless — no confusion, no extra steps — just a beautifully presented way to stay connected and support the ministry you love.
+
+💻 What Churches Get
+🌿 A Simple Digital Giving Page
+
+Each church receives its own personalized donation profile, thoughtfully designed to look great on any device.
+Your profile includes:
+
+Church name, logo, address, and a short description
+
+Verified bank account details (IBAN, Sort Code, SWIFT/BIC, Routing Number)
+
+Support for direct payment links such as Revolut
+
+One-click copy buttons for all account details
+
+A print-friendly layout perfect for bulletins and flyers
+
+✅ A clear and secure way for people to connect with your church anytime.
+
+📱 QR Code Access
+
+Each church automatically receives a unique QR code that opens their giving profile instantly.
+It’s perfect for posters, screens, banners, or handouts — anywhere people might want to give or connect quickly.
+
+✅ Just scan, view, and give — simple and familiar for everyone.
+
+📊 Simple Insights
+
+Churches can see at a glance:
+
+How many times their page has been viewed
+
+How many people have scanned their QR code
+
+When the profile was last updated
+
+✅ Helpful insights to see how people are engaging with your church profile.
+
+💳 Works Anywhere
+
+ChurchDonate supports local and international account formats, including:
+
+IBAN (Europe & beyond)
+
+Sort Code + Account Number (UK & Ireland)
+
+SWIFT/BIC and Routing Numbers (for international transfers)
+
+Revolut and other local payment options
+
+✅ So whether members are nearby or abroad, they can always stay connected.
+
+🧭 For Church Administrators
+🛠️ Easy Management Dashboard
+
+Church admins can:
+
+Securely log in with two-step verification
+
+Add or update church profiles
+
+Upload a church logo and description
+
+View page and QR activity
+
+Manage multiple churches with ease
+
+✅ Simple, secure, and designed for real church teams — no technical skills required.
+
+🌍 Why Churches Love ChurchDonate
+🕊️ Built for the Local Church
+
+ChurchDonate feels personal — designed for the kind of church where everyone knows each other, and connection still matters most.
+
+💡 Simple and Familiar
+
+The way your church already operates, just made easier to access and share.
+
+🔒 Secure and Trusted
+
+Every detail is handled safely, and access is protected with two-step verification.
+You stay in control of your information at all times.
+
+📲 Accessible Anywhere
+
+Works beautifully on phones, tablets, and computers — in service, at home, or on the go.
+
+✨ In Short
+
+ChurchDonate helps your church share its giving details easily and confidently — online or in person.
+It’s not a payment processor or campaign tool; it’s simply a thoughtful way to help your members connect, give, and stay part of what God is doing in your church.

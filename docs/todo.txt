@@ -1,0 +1,13 @@
+- Create a simplified login page (not admin login) /login that will just ask for the email of the user. If the email entered is used as a church manaer (this user is a church manager for any profile) ... a code should be sent to them (6 digit) that will allow them to access a /profiles page which will be a simple gris page of the churches they manage and they can edit/update the church details themselves.. similar to the edit form.
+- Managers do not set or create passwords.. just an OTP 6 digit code to access the profiles and they can only resend a new code every 5 minutes
+- Acces to the system for a manager should last for just 1hour
+- The manager cannot create new profiles.. they simply see profiles they have been assigned over and they can edit all details
+- We need to be careful to not allow a user to remove themselves as a church manager (we need to warn them when this happens explcityly using a warning modal) 
+- The edit profile page for a manager should not be a modal like the other edit profile for admin.. let it is be /manage/{churchid} and we always check a user has access before loading and saving the page
+- Managers cannot change or generate QR codes.. but they can upload new logo..
+- Keep manager endpoints seperate from admin
+- If manager has more than 1 church they are set as admin over, they should see all and be able to update all
+- Managers should see simple stats about Views (direct/qr) for the churches
+- There is no signup page for managers... they can only be added for a church by an admin..
+
+- Later we will send an email to a user when a new church profile is setup and they are assigned as manager (future work)

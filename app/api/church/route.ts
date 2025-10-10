@@ -51,8 +51,16 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { name, nickname, country, address, description, logo, bankDetails } =
-      body;
+    const {
+      name,
+      nickname,
+      country,
+      address,
+      description,
+      logo,
+      managerEmails,
+      bankDetails,
+    } = body;
 
     // Validate required fields
     if (!name || !country || !address || !description || !bankDetails) {
@@ -95,6 +103,7 @@ export async function POST(request: NextRequest) {
       address,
       description,
       logo,
+      managerEmails,
       bankDetails,
       qrCodePath,
     });

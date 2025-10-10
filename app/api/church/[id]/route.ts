@@ -60,8 +60,16 @@ export async function PUT(
     await connectDB();
 
     const body = await request.json();
-    const { name, nickname, country, address, description, logo, bankDetails } =
-      body;
+    const {
+      name,
+      nickname,
+      country,
+      address,
+      description,
+      logo,
+      managerEmails,
+      bankDetails,
+    } = body;
 
     // Find existing church
     const existingChurch = await Church.findById(id);
@@ -78,6 +86,7 @@ export async function PUT(
       address: string;
       description: string;
       logo?: string;
+      managerEmails?: string[];
       bankDetails: typeof existingChurch.bankDetails;
       slug?: string;
     } = {
@@ -87,6 +96,10 @@ export async function PUT(
       address: address || existingChurch.address,
       description: description || existingChurch.description,
       logo: logo !== undefined ? logo : existingChurch.logo,
+      managerEmails:
+        managerEmails !== undefined
+          ? managerEmails
+          : existingChurch.managerEmails,
       bankDetails: bankDetails || existingChurch.bankDetails,
     };
 

@@ -40,6 +40,9 @@ CLOUDINARY_API_SECRET=your-api-secret
 
 # Main Admin Email (Cannot be deleted - protects main admin account)
 MAIN_ADMIN=your-email@example.com
+
+# Main Admin Email for Get Started notifications
+MAIN_ADMIN_EMAIL=admin@yourdomain.com
 ```
 
 **Quick Secret Generation:**

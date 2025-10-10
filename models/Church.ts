@@ -22,6 +22,7 @@ export interface IChurch extends Document {
   address: string;
   description: string;
   logo?: string;
+  managerEmails?: string[]; // Array of emails for profile managers (max 3, not shown on public pages)
   bankDetails: IBankDetails;
   qrCodePath: string;
   pageViews: number;
@@ -124,6 +125,19 @@ const ChurchSchema: Schema<IChurch> = new Schema(
     logo: {
       type: String,
       trim: true,
+    },
+    managerEmails: {
+      type: [String],
+      default: [],
+      validate: {
+        validator: function (emails: string[]) {
+          if (!emails || emails.length === 0) return true;
+          if (emails.length > 3) return false;
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emails.every((email) => emailRegex.test(email));
+        },
+        message: "Maximum 3 valid email addresses allowed",
+      },
     },
     bankDetails: {
       type: BankDetailsSchema,

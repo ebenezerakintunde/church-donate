@@ -15,6 +15,7 @@ interface Church {
   address: string;
   description: string;
   logo?: string;
+  managerEmails?: string[];
   bankDetails: {
     bankName: string;
     accountName: string;
@@ -954,6 +955,42 @@ function ChurchModal({
     revolutLink: church?.bankDetails.revolutLink || "",
     additionalInfo: church?.bankDetails.additionalInfo || "",
   });
+  const [managerEmails, setManagerEmails] = useState<string[]>(
+    church?.managerEmails || []
+  );
+  const [emailInput, setEmailInput] = useState("");
+
+  const addEmail = () => {
+    const email = emailInput.trim().toLowerCase();
+    if (!email) return;
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    // Check if already exists
+    if (managerEmails.includes(email)) {
+      setError("This email is already added");
+      return;
+    }
+
+    // Check max limit
+    if (managerEmails.length >= 3) {
+      setError("Maximum 3 manager emails allowed");
+      return;
+    }
+
+    setManagerEmails([...managerEmails, email]);
+    setEmailInput("");
+    setError("");
+  };
+
+  const removeEmail = (emailToRemove: string) => {
+    setManagerEmails(managerEmails.filter((email) => email !== emailToRemove));
+  };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1010,6 +1047,7 @@ function ChurchModal({
           address: formData.address,
           description: formData.description,
           logo: formData.logo || undefined,
+          managerEmails: managerEmails.length > 0 ? managerEmails : undefined,
           bankDetails: {
             bankName: formData.bankName,
             accountName: formData.accountName,
@@ -1217,6 +1255,74 @@ function ChurchModal({
               }
               placeholder="Grace Church"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Profile Manager Emails{" "}
+              <span className="text-gray-500 font-normal">
+                (Optional, max 3)
+              </span>
+            </label>
+
+            {/* Email Tags */}
+            {managerEmails.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {managerEmails.map((email) => (
+                  <div
+                    key={email}
+                    className="inline-flex items-center gap-2 bg-primary-100 text-primary-800 px-3 py-1.5 rounded-lg text-sm font-medium">
+                    <span>{email}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeEmail(email)}
+                      className="hover:bg-primary-200 rounded-full p-0.5 transition-colors">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Add Email Input */}
+            {managerEmails.length < 3 && (
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent text-gray-900"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addEmail();
+                    }
+                  }}
+                  placeholder="manager@church.com"
+                />
+                <button
+                  type="button"
+                  onClick={addEmail}
+                  className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                  Add
+                </button>
+              </div>
+            )}
+
+            <p className="mt-1 text-xs text-gray-500">
+              Emails for profile management access. Not shown on public pages.
+            </p>
           </div>
 
           <div>
