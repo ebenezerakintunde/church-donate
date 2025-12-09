@@ -157,8 +157,6 @@ export function generateColorPalette(hex: string): ColorPalette {
     };
   }
 
-  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-
   // Generate shades by adjusting lightness
   const palette: ColorPalette = {
     50: generateShade(hex, 95),

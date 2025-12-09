@@ -35,7 +35,11 @@ export async function GET() {
 
     // Heartbeat write to keep MongoDB active
     try {
-      const collection = mongoose.connection.db.collection("healthchecks");
+      const db = mongoose.connection?.db;
+      if (!db) {
+        throw new Error("MongoDB connection not initialized");
+      }
+      const collection = db.collection("healthchecks");
       const insertResult = await collection.insertOne({
         message: "health-ok",
         checkedAt: new Date(),
