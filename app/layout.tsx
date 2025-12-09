@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
-    title: "ChurchDonate - Simplified Church Giving",
+  title: "ChurchDonate - Simplified Church Giving",
     description:
       "Create and manage church donation pages with QR codes. ChurchDonate makes church giving easy, secure, and accessible. Trusted by churches worldwide.",
     path: "/",
